@@ -1,0 +1,39 @@
+{
+  "name": "gulp-chmod",
+  "version": "0.0.0",
+  "description": "Change permissions of Vinyl files",
+  "license": "MIT",
+  "repository": "sindresorhus/gulp-chmod",
+  "author": {
+    "name": "Sindre Sorhus",
+    "email": "sindresorhus@gmail.com",
+    "url": "http://sindresorhus.com"
+  },
+  "engines": {
+    "node": ">=0.10.0"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "files": [
+    "index.js"
+  ],
+  "keywords": [
+    "gulpplugin",
+    "chmod",
+    "stat",
+    "file",
+    "vinyl",
+    "stream",
+    "permissions"
+  ],
+  "dependencies": {
+    "gulp-util": "^2.2.12",
+    "through2": "^0.4.0",
+    "stat-mode": "^0.1.0",
+    "deep-extend": "^0.2.8"
+  },
+  "devDependencies": {
+    "mocha": "*"
+  }
+}
