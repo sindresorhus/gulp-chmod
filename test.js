@@ -46,3 +46,21 @@ it('should chmod files using an object', function (cb) {
 		contents: new Buffer('')
 	}));
 });
+
+it('should chmod files using a simple object', function (cb) {
+	var stream = chmod({
+		read: false
+	});
+
+	stream.on('data', function (file) {
+		assert.strictEqual((file.stat.mode & parseInt('07777', 8)).toString(8), '200');
+		cb();
+	});
+
+	stream.write(new gutil.File({
+		stat: {
+			mode: 33188
+		},
+		contents: new Buffer('')
+	}));
+});
