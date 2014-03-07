@@ -1,6 +1,6 @@
 {
   "name": "gulp-chmod",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Change permissions of Vinyl files",
   "license": "MIT",
   "repository": "sindresorhus/gulp-chmod",
