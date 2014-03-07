@@ -4,6 +4,26 @@ var through = require('through2');
 var deepExtend = require('deep-extend');
 var Mode = require('stat-mode');
 
+function normalize(mode) {
+	var called = false;
+	var newMode = {
+		owner: {},
+		group: {},
+		others: {}
+	};
+
+	['read', 'write', 'execute'].forEach(function (key) {
+		if (typeof mode[key] === 'boolean') {
+			newMode.owner[key] = mode[key];
+			newMode.group[key] = mode[key];
+			newMode.others[key] = mode[key];
+			called = true;
+		}
+	});
+
+	return called ? newMode : mode;
+}
+
 module.exports = function (mode) {
 	if (typeof mode !== 'number' && typeof mode !== 'object') {
 		throw new TypeError('Expected a number or object');
@@ -32,21 +52,3 @@ module.exports = function (mode) {
 		cb();
 	});
 };
-
-function normalize(mode) {
-	var keys = ['read', 'write', 'execute'], called = false;
-	var newOne = {
-		owner: {},
-		group: {},
-		others: {}
-	};
-	keys.forEach(function(key) {
-		if (typeof mode[key] === 'boolean') {
-			newOne.owner[key] = mode[key];
-			newOne.group[key] = mode[key];
-			newOne.others[key] = mode[key];
-			called = true;
-		}
-	});
-	return called ? newOne : mode;
-}
