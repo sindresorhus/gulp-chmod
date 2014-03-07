@@ -82,6 +82,13 @@ Values depends on the current file, but these are the possible keys:
 }
 ```
 
+When read, write and execute are same, you can simplify the object
+
+```
+{
+	read: true
+}
+```
 
 ## Tip
 
