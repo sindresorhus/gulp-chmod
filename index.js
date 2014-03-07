@@ -22,7 +22,7 @@ module.exports = function (mode) {
 
 		if (typeof mode === 'object') {
 			var statMode = new Mode(file.stat);
-			deepExtend(statMode, mode);
+			deepExtend(statMode, normalize(mode));
 			file.stat.mode = statMode.stat.mode;
 		} else {
 			file.stat.mode = parseInt(mode, 8);
@@ -32,3 +32,21 @@ module.exports = function (mode) {
 		cb();
 	});
 };
+
+function normalize(mode) {
+	var keys = ['read', 'write', 'execute'], called = false;
+	var newOne = {
+		owner: {},
+		group: {},
+		others: {}
+	};
+	keys.forEach(function(key) {
+		if (typeof mode[key] === 'boolean') {
+			newOne.owner[key] = mode[key];
+			newOne.group[key] = mode[key];
+			newOne.others[key] = mode[key];
+			called = true;
+		}
+	});
+	return called ? newOne : mode;
+}
