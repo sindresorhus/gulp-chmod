@@ -1,4 +1,4 @@
-# [gulp](https://github.com/wearefractal/gulp)-chmod [![Build Status](https://travis-ci.org/sindresorhus/gulp-chmod.png?branch=master)](https://travis-ci.org/sindresorhus/gulp-chmod)
+# [gulp](http://gulpjs.com)-chmod [![Build Status](https://travis-ci.org/sindresorhus/gulp-chmod.svg?branch=master)](https://travis-ci.org/sindresorhus/gulp-chmod)
 
 > Change permissions of [Vinyl](https://github.com/wearefractal/vinyl) files
 
@@ -10,7 +10,7 @@ $ npm install --save-dev gulp-chmod
 ```
 
 
-## Example
+## Usage
 
 ```js
 var gulp = require('gulp');
