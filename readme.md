@@ -17,7 +17,7 @@ var gulp = require('gulp');
 var chmod = require('gulp-chmod');
 
 gulp.task('default', function () {
-	gulp.src('src/app.js')
+	return gulp.src('src/app.js')
 		.pipe(chmod(755))
 		.pipe(gulp.dest('dist'));
 });
