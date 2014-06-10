@@ -3,6 +3,7 @@ var gutil = require('gulp-util');
 var through = require('through2');
 var deepExtend = require('deep-extend');
 var Mode = require('stat-mode');
+var defaultMode = 511 & (~process.umask()); // 511 = 0777
 
 function normalize(mode) {
 	var called = false;
@@ -39,6 +40,9 @@ module.exports = function (mode) {
 			this.emit('error', new gutil.PluginError('gulp-chmod', 'Streaming not supported'));
 			return cb();
 		}
+
+		file.stat = file.stat || {};
+		file.stat.mode = file.stat.mode || defaultMode;
 
 		if (typeof mode === 'object') {
 			var statMode = new Mode(file.stat);
