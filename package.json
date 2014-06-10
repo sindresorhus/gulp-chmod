@@ -28,10 +28,10 @@
     "permissions"
   ],
   "dependencies": {
+    "deep-extend": "^0.2.8",
     "gulp-util": "^2.2.12",
-    "through2": "^0.4.0",
-    "stat-mode": "^0.1.0",
-    "deep-extend": "^0.2.8"
+    "stat-mode": "^0.2.0",
+    "through2": "^0.5.1"
   },
   "devDependencies": {
     "mocha": "*"
