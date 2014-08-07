@@ -1,5 +1,4 @@
 'use strict';
-var gutil = require('gulp-util');
 var through = require('through2');
 var deepExtend = require('deep-extend');
 var Mode = require('stat-mode');
@@ -33,11 +32,6 @@ module.exports = function (mode) {
 	return through.obj(function (file, enc, cb) {
 		if (file.isNull()) {
 			this.push(file);
-			return cb();
-		}
-
-		if (file.isStream()) {
-			this.emit('error', new gutil.PluginError('gulp-chmod', 'Streaming not supported'));
 			return cb();
 		}
 
