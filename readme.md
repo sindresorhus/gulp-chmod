@@ -5,7 +5,7 @@
 
 ## Install
 
-```bash
+```sh
 $ npm install --save-dev gulp-chmod
 ```
 
@@ -30,7 +30,7 @@ var gulp = require('gulp');
 var chmod = require('gulp-chmod');
 
 gulp.task('default', function () {
-	gulp.src('src/app.js')
+	return gulp.src('src/app.js')
 		.pipe(chmod({
 			owner: {
 				read: true,
@@ -55,7 +55,7 @@ gulp.task('default', function () {
 
 #### mode
 
-Type: `Number`, `Object`
+Type: `number`, `object`
 
 Can either be a [chmod](http://ss64.com/bash/chmod.html) mode number or an object with the individual permissions specified.
 
@@ -90,6 +90,7 @@ When `read`, `write` and `execute` are same, you can simplify the object:
 }
 ```
 
+
 ## Tip
 
 Combine it with [gulp-filter](https://github.com/sindresorhus/gulp-filter) to only change permissions on a subset of the files.
@@ -102,7 +103,7 @@ var chmod = require('gulp-chmod');
 var filter = gFilter('src/cli.js');
 
 gulp.task('default', function () {
-	gulp.src('src/*.js')
+	return gulp.src('src/*.js')
 		// filter a subset of the files
 		.pipe(filter)
 		// make them executable
@@ -116,4 +117,4 @@ gulp.task('default', function () {
 
 ## License
 
-[MIT](http://opensource.org/licenses/MIT) © [Sindre Sorhus](http://sindresorhus.com)
+MIT © [Sindre Sorhus](http://sindresorhus.com)

@@ -30,7 +30,7 @@
   "dependencies": {
     "deep-extend": "^0.2.11",
     "stat-mode": "^0.2.0",
-    "through2": "^0.5.1"
+    "through2": "^0.6.1"
   },
   "devDependencies": {
     "mocha": "*",

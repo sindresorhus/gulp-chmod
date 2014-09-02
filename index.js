@@ -31,8 +31,8 @@ module.exports = function (mode) {
 
 	return through.obj(function (file, enc, cb) {
 		if (file.isNull()) {
-			this.push(file);
-			return cb();
+			cb(null, file);
+			return;
 		}
 
 		file.stat = file.stat || {};
@@ -46,7 +46,6 @@ module.exports = function (mode) {
 			file.stat.mode = parseInt(mode, 8);
 		}
 
-		this.push(file);
-		cb();
+		cb(null, file);
 	});
 };

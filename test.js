@@ -1,7 +1,7 @@
 'use strict';
 var assert = require('assert');
 var gutil = require('gulp-util');
-var chmod = require('./index');
+var chmod = require('./');
 
 it('should chmod files using a number', function (cb) {
 	var stream = chmod(755);
