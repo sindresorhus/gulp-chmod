@@ -28,7 +28,7 @@
     "permissions"
   ],
   "dependencies": {
-    "deep-extend": "^0.2.11",
+    "deep-extend": "^0.3.2",
     "stat-mode": "^0.2.0",
     "through2": "^0.6.1"
   },
