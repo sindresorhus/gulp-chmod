@@ -1,4 +1,4 @@
-# gulp [![Build Status](https://travis-ci.org/sindresorhus/gulp-chmod.svg?branch=master)](https://travis-ci.org/sindresorhus/gulp-chmod)
+# gulp-chmod [![Build Status](https://travis-ci.org/sindresorhus/gulp-chmod.svg?branch=master)](https://travis-ci.org/sindresorhus/gulp-chmod)
 
 > Change permissions of [Vinyl](https://github.com/wearefractal/vinyl) files
 
