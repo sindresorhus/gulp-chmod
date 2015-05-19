@@ -30,7 +30,7 @@ module.exports = function (mode) {
 	}
 
 	return through.obj(function (file, enc, cb) {
-		if (file.isNull()) {
+		if (file.isNull() && ! file.isDirectory()) {
 			cb(null, file);
 			return;
 		}
