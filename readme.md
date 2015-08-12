@@ -100,7 +100,7 @@ var gulp = require('gulp');
 var gFilter = require('gulp-filter');
 var chmod = require('gulp-chmod');
 
-var filter = gFilter('src/cli.js');
+var filter = gFilter('src/cli.js', {restore: true});
 
 gulp.task('default', function () {
 	return gulp.src('src/*.js')
@@ -109,7 +109,7 @@ gulp.task('default', function () {
 		// make them executable
 		.pipe(chmod(755))
 		// bring back the previously filtered out files
-		.pipe(filter.restore())
+		.pipe(filter.restore)
 		.pipe(gulp.dest('dist'));
 });
 ```
