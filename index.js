@@ -1,8 +1,10 @@
 'use strict';
 var through = require('through2');
-var deepExtend = require('deep-extend');
+var deepAssign = require('deep-assign');
 var Mode = require('stat-mode');
-var defaultMode = 511 & (~process.umask()); // 511 = 0777
+
+// 511 = 0777
+var defaultMode = 511 & (~process.umask());
 
 function normalize(mode) {
 	var called = false;
@@ -40,7 +42,7 @@ module.exports = function (mode) {
 
 		if (typeof mode === 'object') {
 			var statMode = new Mode(file.stat);
-			deepExtend(statMode, normalize(mode));
+			deepAssign(statMode, normalize(mode));
 			file.stat.mode = statMode.stat.mode;
 		} else {
 			file.stat.mode = parseInt(mode, 8);

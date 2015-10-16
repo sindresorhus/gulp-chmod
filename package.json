@@ -28,9 +28,9 @@
     "permissions"
   ],
   "dependencies": {
-    "deep-extend": "^0.3.2",
+    "deep-assign": "^1.0.0",
     "stat-mode": "^0.2.0",
-    "through2": "^0.6.1"
+    "through2": "^2.0.0"
   },
   "devDependencies": {
     "mocha": "*",
