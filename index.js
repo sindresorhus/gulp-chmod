@@ -26,13 +26,13 @@ function normalize(mode) {
 	return called ? newMode : mode;
 }
 
-module.exports = function (mode) {
+module.exports = function (mode, dirMode) {
 	if (typeof mode !== 'number' && typeof mode !== 'object') {
 		throw new TypeError('Expected a number or object');
 	}
 
 	return through.obj(function (file, enc, cb) {
-		if (file.isNull()) {
+		if (file.isNull() && (dirMode && (!file.stat || !file.stat.isDirectory || !file.stat.isDirectory()))) {
 			cb(null, file);
 			return;
 		}

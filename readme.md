@@ -51,7 +51,7 @@ gulp.task('default', () => {
 
 ## API
 
-### chmod(mode)
+### chmod(mode, dirMode)
 
 #### mode
 
@@ -90,6 +90,11 @@ When `read`, `write` and `execute` are same, you can simplify the object:
 }
 ```
 
+#### dirMode
+
+Type: `boolean`
+
+Whether the mode should be applied to folders as well.
 
 ## Tip
 
