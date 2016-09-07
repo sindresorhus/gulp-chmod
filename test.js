@@ -64,3 +64,35 @@ it('should chmod files using a simple object', function (cb) {
 		contents: new Buffer('')
 	}));
 });
+
+it('should ignore folders without dirMode set to true', function(cb){
+	var stream = chmod(755);
+
+	stream.on('data', function (file) {
+		assert.strictEqual(file.stat.mode, 33188);
+		cb();
+	});
+
+	stream.write(new gutil.File({
+		stat: {
+			mode: 33188,
+			isDirectory: function(){ return true; }
+		}
+	}));
+});
+
+it('should set folders using mode when dirMode set to true', function(cb){
+	var stream = chmod(755, true);
+
+	stream.on('data', function (file) {
+		assert.strictEqual(file.stat.mode.toString(8), '755');
+		cb();
+	});
+
+	stream.write(new gutil.File({
+		stat: {
+			mode: 33188,
+			isDirectory: function(){ return true; }
+		}
+	}));
+});

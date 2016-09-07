@@ -32,7 +32,7 @@ module.exports = function (mode, dirMode) {
 	}
 
 	return through.obj(function (file, enc, cb) {
-		if (file.isNull() && (dirMode && (!file.stat || !file.stat.isDirectory || !file.stat.isDirectory()))) {
+		if (file.isNull() && (dirMode !== true || (!file.stat || !file.stat.isDirectory || !file.stat.isDirectory()))) {
 			cb(null, file);
 			return;
 		}
