@@ -51,7 +51,7 @@ gulp.task('default', () => {
 
 ## API
 
-### chmod(mode, dirMode)
+### chmod(mode, [dirMode])
 
 #### mode
 
