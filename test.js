@@ -14,7 +14,7 @@ it('should throw if invalid argument type', () => {
 });
 
 it('should chmod files using a number', cb => {
-	const stream = chmod(755);
+	const stream = chmod(0o755);
 
 	stream.on('data', file => {
 		assert.strictEqual(file.stat.mode.toString(8), '755');
@@ -76,7 +76,7 @@ it('should chmod files using a simple object', cb => {
 });
 
 it('should not change folder permissions without a dirMode value', cb => {
-	const stream = chmod(755);
+	const stream = chmod(0o755);
 
 	stream.on('data', file => {
 		assert.strictEqual(file.stat.mode, 0o100644);
@@ -92,7 +92,7 @@ it('should not change folder permissions without a dirMode value', cb => {
 });
 
 it('should use mode for directories when dirMode set to true', cb => {
-	const stream = chmod(755, true);
+	const stream = chmod(0o755, true);
 
 	stream.on('data', file => {
 		assert.strictEqual(file.stat.mode, 0o755);
@@ -117,7 +117,7 @@ it('should throw if invalid argument type', () => {
 });
 
 it('should chmod directories using a number', cb => {
-	const stream = chmod(null, 755);
+	const stream = chmod(null, 0o755);
 
 	stream.on('data', file => {
 		assert.strictEqual(file.stat.mode, 0o755);
@@ -161,7 +161,7 @@ it('should chmod directories using an object', cb => {
 });
 
 it('should handle no stat object', cb => {
-	const stream = chmod(755);
+	const stream = chmod(0o755);
 
 	stream.on('data', file => {
 		assert.strictEqual(file.stat.mode, 0o755);
@@ -174,7 +174,7 @@ it('should handle no stat object', cb => {
 });
 
 it('should use defaultMode if no mode on state object', cb => {
-	const stream = chmod(755);
+	const stream = chmod(0o755);
 
 	stream.on('data', file => {
 		assert.strictEqual(file.stat.mode, 0o755);
@@ -188,7 +188,7 @@ it('should use defaultMode if no mode on state object', cb => {
 });
 
 it('should handle different values for mode and dirMode', cb => {
-	const stream = chmod(755, 777);
+	const stream = chmod(0o755, 0o777);
 	let checkedDir = false;
 	let checkedFile = false;
 

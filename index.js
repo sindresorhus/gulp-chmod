@@ -58,7 +58,7 @@ module.exports = (mode, dirMode) => {
 			deepAssign(statMode, normalize(curMode));
 			file.stat.mode = statMode.stat.mode;
 		} else {
-			file.stat.mode = parseInt(curMode, 8);
+			file.stat.mode = curMode;
 		}
 
 		cb(null, file);
