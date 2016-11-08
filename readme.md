@@ -51,7 +51,7 @@ gulp.task('default', () => {
 
 ## API
 
-### chmod(mode)
+### chmod(mode, [dirMode])
 
 #### mode
 
@@ -90,6 +90,13 @@ When `read`, `write` and `execute` are same, you can simplify the object:
 }
 ```
 
+Pass null to not set permissions on files (useful if you only want to set permissions on directories).
+
+#### dirMode
+
+Type: `true`, `number`, `object`
+
+Same as mode but will be applied to directories. Pass `true` to use mode value.
 
 ## Tip
 
