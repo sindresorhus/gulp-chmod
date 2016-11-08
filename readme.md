@@ -16,11 +16,11 @@ $ npm install --save-dev gulp-chmod
 const gulp = require('gulp');
 const chmod = require('gulp-chmod');
 
-gulp.task('default', () => {
-	return gulp.src('src/app.js')
+gulp.task('default', () =>
+	gulp.src('src/app.js')
 		.pipe(chmod(755))
-		.pipe(gulp.dest('dist'));
-});
+		.pipe(gulp.dest('dist'))
+);
 ```
 
 or
@@ -29,8 +29,8 @@ or
 const gulp = require('gulp');
 const chmod = require('gulp-chmod');
 
-gulp.task('default', () => {
-	return gulp.src('src/app.js')
+gulp.task('default', () =>
+	gulp.src('src/app.js')
 		.pipe(chmod({
 			owner: {
 				read: true,
@@ -44,8 +44,8 @@ gulp.task('default', () => {
 				execute: true
 			}
 		}))
-		.pipe(gulp.dest('dist'));
-});
+		.pipe(gulp.dest('dist'))
+);
 ```
 
 
@@ -55,10 +55,9 @@ gulp.task('default', () => {
 
 #### mode
 
-Type: `number`, `object`
+Type: `number` `Object`
 
 Can either be a [chmod](http://ss64.com/bash/chmod.html) mode number or an object with the individual permissions specified.
-
 
 Values depends on the current file, but these are the possible keys:
 
@@ -82,9 +81,9 @@ Values depends on the current file, but these are the possible keys:
 }
 ```
 
-When `read`, `write` and `execute` are same, you can simplify the object:
+When `read`, `write`, and `execute` are same, you can simplify the object:
 
-```
+```js
 {
 	read: true
 }
@@ -94,7 +93,7 @@ Pass `null` to not set permissions on files. Useful if you only want to set perm
 
 #### dirMode
 
-Type: `true`, `number`, `object`
+Type: `true` `number` `Object`
 
 Same as `mode`, but applies to directories. Specify `true` to use the same value as `mode`.
 
@@ -110,16 +109,16 @@ const chmod = require('gulp-chmod');
 
 const filter = gFilter('src/cli.js', {restore: true});
 
-gulp.task('default', () => {
-	return gulp.src('src/*.js')
+gulp.task('default', () =>
+	gulp.src('src/*.js')
 		// filter a subset of the files
 		.pipe(filter)
 		// make them executable
 		.pipe(chmod(755))
 		// bring back the previously filtered out files
 		.pipe(filter.restore)
-		.pipe(gulp.dest('dist'));
-});
+		.pipe(gulp.dest('dist'))
+);
 ```
 
 
@@ -130,4 +129,4 @@ gulp.task('default', () => {
 
 ## License
 
-MIT © [Sindre Sorhus](http://sindresorhus.com)
+MIT © [Sindre Sorhus](https://sindresorhus.com)

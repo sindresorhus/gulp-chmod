@@ -1,35 +1,36 @@
+/* eslint-env mocha */
 'use strict';
-var assert = require('assert');
-var gutil = require('gulp-util');
-var chmod = require('./');
+const assert = require('assert');
+const gutil = require('gulp-util');
+const chmod = require('./');
 
-it('should throw if invalid argument type', function () {
+it('should throw if invalid argument type', () => {
 	assert.throws(
-		function () {
-			var stream = chmod('bad argument');
+		() => {
+			chmod('bad argument');
 		},
 		/Expected mode to be/
 	);
 });
 
-it('should chmod files using a number', function (cb) {
-	var stream = chmod(755);
+it('should chmod files using a number', cb => {
+	const stream = chmod(755);
 
-	stream.on('data', function (file) {
+	stream.on('data', file => {
 		assert.strictEqual(file.stat.mode.toString(8), '755');
 		cb();
 	});
 
 	stream.write(new gutil.File({
 		stat: {
-			mode: 33188
+			mode: 0o100644
 		},
 		contents: new Buffer('')
 	}));
 });
 
-it('should chmod files using an object', function (cb) {
-	var stream = chmod({
+it('should chmod files using an object', cb => {
+	const stream = chmod({
 		owner: {
 			read: true,
 			write: true,
@@ -43,96 +44,96 @@ it('should chmod files using an object', function (cb) {
 		}
 	});
 
-	stream.on('data', function (file) {
-		assert.strictEqual((file.stat.mode & parseInt('07777', 8)).toString(8), '755');
+	stream.on('data', file => {
+		assert.strictEqual(file.stat.mode & 0o07777, 0o755);
 		cb();
 	});
 
 	stream.write(new gutil.File({
 		stat: {
-			mode: 33188
+			mode: 0o100644
 		},
 		contents: new Buffer('')
 	}));
 });
 
-it('should chmod files using a simple object', function (cb) {
-	var stream = chmod({
+it('should chmod files using a simple object', cb => {
+	const stream = chmod({
 		read: false
 	});
 
-	stream.on('data', function (file) {
-		assert.strictEqual((file.stat.mode & parseInt('07777', 8)).toString(8), '200');
+	stream.on('data', file => {
+		assert.strictEqual(file.stat.mode & 0o07777, 0o200);
 		cb();
 	});
 
 	stream.write(new gutil.File({
 		stat: {
-			mode: 33188
+			mode: 0o100644
 		},
 		contents: new Buffer('')
 	}));
 });
 
-it('should not change folder permissions without a dirMode value', function (cb) {
-	var stream = chmod(755);
+it('should not change folder permissions without a dirMode value', cb => {
+	const stream = chmod(755);
 
-	stream.on('data', function (file) {
-		assert.strictEqual(file.stat.mode, 33188);
+	stream.on('data', file => {
+		assert.strictEqual(file.stat.mode, 0o100644);
 		cb();
 	});
 
 	stream.write(new gutil.File({
 		stat: {
-			mode: 33188,
-			isDirectory: function () { return true; }
+			mode: 0o100644,
+			isDirectory: () => true
 		}
 	}));
 });
 
-it('should use mode for directories when dirMode set to true', function (cb) {
-	var stream = chmod(755, true);
+it('should use mode for directories when dirMode set to true', cb => {
+	const stream = chmod(755, true);
 
-	stream.on('data', function (file) {
-		assert.strictEqual(file.stat.mode.toString(8), '755');
+	stream.on('data', file => {
+		assert.strictEqual(file.stat.mode, 0o755);
 		cb();
 	});
 
 	stream.write(new gutil.File({
 		stat: {
-			mode: 33188,
-			isDirectory: function () { return true; }
+			mode: 0o100644,
+			isDirectory: () => true
 		}
 	}));
 });
 
-it('should throw if invalid argument type', function(){
+it('should throw if invalid argument type', () => {
 	assert.throws(
-		function(){
-			var stream = chmod(null, 'bad argument');
+		() => {
+			chmod(null, 'bad argument');
 		},
 		/Expected dirMode to be/
 	);
 });
 
-it('should chmod directories using a number', function (cb) {
-	var stream = chmod(null, 755);
+it('should chmod directories using a number', cb => {
+	const stream = chmod(null, 755);
 
-	stream.on('data', function (file) {
-		assert.strictEqual(file.stat.mode.toString(8), '755');
+	stream.on('data', file => {
+		assert.strictEqual(file.stat.mode, 0o755);
 		cb();
 	});
 
 	stream.write(new gutil.File({
 		stat: {
-			mode: 33188,
-			isDirectory: function () { return true; }
+			mode: 0o100644,
+			isDirectory: () => true
 		}
 	}));
 });
 
-it('should chmod directories using an object', function (cb) {
-	var stream = chmod(null, {
+it('should chmod directories using an object', cb => {
+	const stream = chmod(null, {
 		owner: {
 			read: true,
 			write: true,
@@ -146,24 +147,24 @@ it('should chmod directories using an object', function (cb) {
 		}
 	});
 
-	stream.on('data', function (file) {
-		assert.strictEqual((file.stat.mode & parseInt('07777', 8)).toString(8), '755');
+	stream.on('data', file => {
+		assert.strictEqual(file.stat.mode & 0o07777, 0o755);
 		cb();
 	});
 
 	stream.write(new gutil.File({
 		stat: {
-			mode: 33188,
-			isDirectory: function () { return true; }
+			mode: 0o100644,
+			isDirectory: () => true
 		}
 	}));
 });
 
-it('should handle no stat object', function (cb) {
-	var stream = chmod(755);
+it('should handle no stat object', cb => {
+	const stream = chmod(755);
 
-	stream.on('data', function (file) {
-		assert.strictEqual(file.stat.mode.toString(8), '755');
+	stream.on('data', file => {
+		assert.strictEqual(file.stat.mode, 0o755);
 		cb();
 	});
 
@@ -172,11 +173,11 @@ it('should handle no stat object', function (cb) {
 	}));
 });
 
-it('should use defaultMode if no mode on state object', function (cb) {
-	var stream = chmod(755);
+it('should use defaultMode if no mode on state object', cb => {
+	const stream = chmod(755);
 
-	stream.on('data', function (file) {
-		assert.strictEqual(file.stat.mode.toString(8), '755');
+	stream.on('data', file => {
+		assert.strictEqual(file.stat.mode, 0o755);
 		cb();
 	});
 
@@ -186,22 +187,22 @@ it('should use defaultMode if no mode on state object', function (cb) {
 	}));
 });
 
-it('should handle different values for mode and dirMode', function (cb) {
-	var stream = chmod(755, 777);
-	var checkedDir = false;
-	var checkedFile = false;
+it('should handle different values for mode and dirMode', cb => {
+	const stream = chmod(755, 777);
+	let checkedDir = false;
+	let checkedFile = false;
 
-	stream.on('data', function (file) {
-		if (file.stat && file.stat.isDirectory && file.stat.isDirectory()){
-			assert.strictEqual(file.stat.mode.toString(8), '777');
+	stream.on('data', file => {
+		if (file.stat && file.stat.isDirectory && file.stat.isDirectory()) {
+			assert.strictEqual(file.stat.mode, 0o777);
 			checkedDir = true;
 		} else {
-			assert.strictEqual(file.stat.mode.toString(8), '755');
+			assert.strictEqual(file.stat.mode, 0o755);
 			checkedFile = true;
 		}
 
 		// checked both file and directory values?
-		if (checkedDir && checkedFile){
+		if (checkedDir && checkedFile) {
 			cb();
 		}
 	});
@@ -212,7 +213,7 @@ it('should handle different values for mode and dirMode', function (cb) {
 
 	stream.write(new gutil.File({
 		stat: {
-			isDirectory: function () { return true }
+			isDirectory: () => true
 		}
 	}));
 });

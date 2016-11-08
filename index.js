@@ -1,20 +1,19 @@
 'use strict';
-var through = require('through2');
-var deepAssign = require('deep-assign');
-var Mode = require('stat-mode');
+const through = require('through2');
+const deepAssign = require('deep-assign');
+const Mode = require('stat-mode');
 
-// 511 = 0777
-var defaultMode = 511 & (~process.umask());
+const defaultMode = 0o777 & (~process.umask());
 
 function normalize(mode) {
-	var called = false;
-	var newMode = {
+	let called = false;
+	const newMode = {
 		owner: {},
 		group: {},
 		others: {}
 	};
 
-	['read', 'write', 'execute'].forEach(function (key) {
+	['read', 'write', 'execute'].forEach(key => {
 		if (typeof mode[key] === 'boolean') {
 			newMode.owner[key] = mode[key];
 			newMode.group[key] = mode[key];
@@ -26,8 +25,8 @@ function normalize(mode) {
 	return called ? newMode : mode;
 }
 
-module.exports = function (mode, dirMode) {
-	if (mode !== undefined && typeof mode !== 'number' && typeof mode !== 'object') {
+module.exports = (mode, dirMode) => {
+	if (mode !== null && mode !== undefined && typeof mode !== 'number' && typeof mode !== 'object') {
 		throw new TypeError('Expected mode to be null/undefined/number/Object');
 	}
 
@@ -35,12 +34,12 @@ module.exports = function (mode, dirMode) {
 		dirMode = mode;
 	}
 
-	if (dirMode !== undefined && typeof dirMode !== 'number' && typeof dirMode !== 'object'){
+	if (dirMode !== null && dirMode !== undefined && typeof dirMode !== 'number' && typeof dirMode !== 'object') {
 		throw new TypeError('Expected dirMode to be null/undefined/true/number/Object');
 	}
 
-	return through.obj(function (file, enc, cb) {
-		var curMode = mode;
+	return through.obj((file, enc, cb) => {
+		let curMode = mode;
 
 		if (file.isNull() && file.stat && file.stat.isDirectory()) {
 			curMode = dirMode;
@@ -55,7 +54,7 @@ module.exports = function (mode, dirMode) {
 		file.stat.mode = file.stat.mode || defaultMode;
 
 		if (typeof curMode === 'object') {
-			var statMode = new Mode(file.stat);
+			const statMode = new Mode(file.stat);
 			deepAssign(statMode, normalize(curMode));
 			file.stat.mode = statMode.stat.mode;
 		} else {
