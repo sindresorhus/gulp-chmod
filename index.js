@@ -28,25 +28,25 @@ function normalize(mode) {
 
 module.exports = function (mode, dirMode) {
 	if (mode !== undefined && typeof mode !== 'number' && typeof mode !== 'object') {
-		throw new TypeError('Expected mode to be null/undefined, a number, or an object');
+		throw new TypeError('Expected mode to be null/undefined/number/Object');
 	}
-	
-	if(dirMode === true){
+
+	if (dirMode === true) {
 		dirMode = mode;
 	}
-	
+
 	if (dirMode !== undefined && typeof dirMode !== 'number' && typeof dirMode !== 'object'){
-		throw new TypeError('Expected dirMode to be null/undefined, true, a number, or an object');
+		throw new TypeError('Expected dirMode to be null/undefined/true/number/Object');
 	}
 
 	return through.obj(function (file, enc, cb) {
 		var curMode = mode;
-		
-		if (file.isNull() && file.stat.isDirectory()) {
+
+		if (file.isNull() && file.stat && file.stat.isDirectory()) {
 			curMode = dirMode;
 		}
-		
-		if (curMode === undefined || curMode === null){
+
+		if (curMode === undefined || curMode === null) {
 			cb(null, file);
 			return;
 		}

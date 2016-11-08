@@ -90,13 +90,14 @@ When `read`, `write` and `execute` are same, you can simplify the object:
 }
 ```
 
-Pass null to not set permissions on files (useful if you only want to set permissions on directories).
+Pass `null` to not set permissions on files. Useful if you only want to set permissions on directories.
 
 #### dirMode
 
 Type: `true`, `number`, `object`
 
-Same as mode but will be applied to directories. Pass `true` to use mode value.
+Same as `mode`, but applies to directories. Specify `true` to use the same value as `mode`.
+
 
 ## Tip
 
