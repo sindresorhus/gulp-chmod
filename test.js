@@ -1,8 +1,8 @@
 /* eslint-env mocha */
 'use strict';
 const assert = require('assert');
-const gutil = require('gulp-util');
-const chmod = require('./');
+const Vinyl = require('vinyl');
+const chmod = require('.');
 
 it('should throw if invalid argument type', () => {
 	assert.throws(
@@ -21,11 +21,11 @@ it('should chmod files using a number', cb => {
 		cb();
 	});
 
-	stream.write(new gutil.File({
+	stream.end(new Vinyl({
 		stat: {
 			mode: 0o100644
 		},
-		contents: new Buffer('')
+		contents: Buffer.from('')
 	}));
 });
 
@@ -49,11 +49,11 @@ it('should chmod files using an object', cb => {
 		cb();
 	});
 
-	stream.write(new gutil.File({
+	stream.end(new Vinyl({
 		stat: {
 			mode: 0o100644
 		},
-		contents: new Buffer('')
+		contents: Buffer.from('')
 	}));
 });
 
@@ -67,11 +67,11 @@ it('should chmod files using a simple object', cb => {
 		cb();
 	});
 
-	stream.write(new gutil.File({
+	stream.end(new Vinyl({
 		stat: {
 			mode: 0o100644
 		},
-		contents: new Buffer('')
+		contents: Buffer.from('')
 	}));
 });
 
@@ -83,7 +83,7 @@ it('should not change folder permissions without a dirMode value', cb => {
 		cb();
 	});
 
-	stream.write(new gutil.File({
+	stream.end(new Vinyl({
 		stat: {
 			mode: 0o100644,
 			isDirectory: () => true
@@ -99,7 +99,7 @@ it('should use mode for directories when dirMode set to true', cb => {
 		cb();
 	});
 
-	stream.write(new gutil.File({
+	stream.end(new Vinyl({
 		stat: {
 			mode: 0o100644,
 			isDirectory: () => true
@@ -124,7 +124,7 @@ it('should chmod directories using a number', cb => {
 		cb();
 	});
 
-	stream.write(new gutil.File({
+	stream.end(new Vinyl({
 		stat: {
 			mode: 0o100644,
 			isDirectory: () => true
@@ -152,7 +152,7 @@ it('should chmod directories using an object', cb => {
 		cb();
 	});
 
-	stream.write(new gutil.File({
+	stream.end(new Vinyl({
 		stat: {
 			mode: 0o100644,
 			isDirectory: () => true
@@ -168,8 +168,8 @@ it('should handle no stat object', cb => {
 		cb();
 	});
 
-	stream.write(new gutil.File({
-		contents: new Buffer('')
+	stream.end(new Vinyl({
+		contents: Buffer.from('')
 	}));
 });
 
@@ -181,9 +181,9 @@ it('should use defaultMode if no mode on state object', cb => {
 		cb();
 	});
 
-	stream.write(new gutil.File({
+	stream.end(new Vinyl({
 		stat: {},
-		contents: new Buffer('')
+		contents: Buffer.from('')
 	}));
 });
 
@@ -201,19 +201,21 @@ it('should handle different values for mode and dirMode', cb => {
 			checkedFile = true;
 		}
 
-		// checked both file and directory values?
+		// Checked both file and directory values?
 		if (checkedDir && checkedFile) {
 			cb();
 		}
 	});
 
-	stream.write(new gutil.File({
-		contents: new Buffer('')
+	stream.write(new Vinyl({
+		contents: Buffer.from('')
 	}));
 
-	stream.write(new gutil.File({
+	stream.write(new Vinyl({
 		stat: {
 			isDirectory: () => true
 		}
 	}));
+
+	stream.end();
 });
