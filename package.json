@@ -10,7 +10,7 @@
 		"url": "sindresorhus.com"
 	},
 	"engines": {
-		"node": ">=4"
+		"node": ">=8"
 	},
 	"scripts": {
 		"test": "xo && mocha"
@@ -29,12 +29,12 @@
 	],
 	"dependencies": {
 		"deep-assign": "^1.0.0",
-		"stat-mode": "^0.2.0",
-		"through2": "^2.0.0"
+		"stat-mode": "^0.3.0",
+		"through2": "^3.0.1"
 	},
 	"devDependencies": {
-		"mocha": "*",
+		"mocha": "^6.1.4",
 		"vinyl": "^2.1.0",
-		"xo": "*"
+		"xo": "^0.24.0"
 	}
 }

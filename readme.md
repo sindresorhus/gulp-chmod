@@ -51,11 +51,11 @@ gulp.task('default', () =>
 
 ## API
 
-### chmod(mode, [dirMode])
+### chmod(fileMode, [directoryMode])
 
-#### mode
+#### fileMode
 
-Type: `number` `Object`
+Type: `number | object`
 
 Can either be a [chmod](http://ss64.com/bash/chmod.html) octal number or an object with the individual permissions specified.
 
@@ -81,7 +81,7 @@ Values depends on the current file, but these are the possible keys:
 }
 ```
 
-When `read`, `write`, and `execute` are same, you can simplify the object:
+When `read`, `write`, and `execute` are the same, you can simplify the object:
 
 ```js
 {
@@ -89,13 +89,15 @@ When `read`, `write`, and `execute` are same, you can simplify the object:
 }
 ```
 
-Pass `null` to not set permissions on files. Useful if you only want to set permissions on directories.
+Pass `undefined` to not set permissions on files. Useful if you only want to set permissions on directories.
 
-#### dirMode
+#### directoryMode
 
-Type: `true` `number` `Object`
+Type: `true | number | object`
 
-Same as `mode`, but applies to directories. Specify `true` to use the same value as `mode`.
+Same as `fileMode`, but applies to directories.
+
+Specify `true` to use the same value as `fileMode`.
 
 
 ## Tip
@@ -111,11 +113,11 @@ const filter = gFilter('src/cli.js', {restore: true});
 
 gulp.task('default', () =>
 	gulp.src('src/*.js')
-		// filter a subset of the files
+		// Filter a subset of the files
 		.pipe(filter)
-		// make them executable
+		// Make them executable
 		.pipe(chmod(0o755))
-		// bring back the previously filtered out files
+		// Bring back the previously filtered out files
 		.pipe(filter.restore)
 		.pipe(gulp.dest('dist'))
 );
@@ -125,8 +127,3 @@ gulp.task('default', () =>
 ## Related
 
 - [gulp-chown](https://github.com/sindresorhus/gulp-chown) - Change owner of Vinyl files
-
-
-## License
-
-MIT © [Sindre Sorhus](https://sindresorhus.com)

@@ -9,7 +9,7 @@ it('should throw if invalid argument type', () => {
 		() => {
 			chmod('bad argument');
 		},
-		/Expected mode to be/
+		/Expected `fileMode` to be/
 	);
 });
 
@@ -75,7 +75,7 @@ it('should chmod files using a simple object', cb => {
 	}));
 });
 
-it('should not change folder permissions without a dirMode value', cb => {
+it('should not change folder permissions without a directoryMode value', cb => {
 	const stream = chmod(0o755);
 
 	stream.on('data', file => {
@@ -91,7 +91,7 @@ it('should not change folder permissions without a dirMode value', cb => {
 	}));
 });
 
-it('should use mode for directories when dirMode set to true', cb => {
+it('should use mode for directories when directoryMode set to true', cb => {
 	const stream = chmod(0o755, true);
 
 	stream.on('data', file => {
@@ -110,14 +110,14 @@ it('should use mode for directories when dirMode set to true', cb => {
 it('should throw if invalid argument type', () => {
 	assert.throws(
 		() => {
-			chmod(null, 'bad argument');
+			chmod(undefined, 'bad argument');
 		},
-		/Expected dirMode to be/
+		/Expected `directoryMode` to be/
 	);
 });
 
 it('should chmod directories using a number', cb => {
-	const stream = chmod(null, 0o755);
+	const stream = chmod(undefined, 0o755);
 
 	stream.on('data', file => {
 		assert.strictEqual(file.stat.mode, 0o755);
@@ -133,7 +133,7 @@ it('should chmod directories using a number', cb => {
 });
 
 it('should chmod directories using an object', cb => {
-	const stream = chmod(null, {
+	const stream = chmod(undefined, {
 		owner: {
 			read: true,
 			write: true,
@@ -187,22 +187,22 @@ it('should use defaultMode if no mode on state object', cb => {
 	}));
 });
 
-it('should handle different values for mode and dirMode', cb => {
+it('should handle different values for mode and directoryMode', cb => {
 	const stream = chmod(0o755, 0o777);
-	let checkedDir = false;
+	let checkedDirectory = false;
 	let checkedFile = false;
 
 	stream.on('data', file => {
 		if (file.stat && file.stat.isDirectory && file.stat.isDirectory()) {
 			assert.strictEqual(file.stat.mode, 0o777);
-			checkedDir = true;
+			checkedDirectory = true;
 		} else {
 			assert.strictEqual(file.stat.mode, 0o755);
 			checkedFile = true;
 		}
 
-		// Checked both file and directory values?
-		if (checkedDir && checkedFile) {
+		// Checked both file and directory values
+		if (checkedDirectory && checkedFile) {
 			cb();
 		}
 	});
