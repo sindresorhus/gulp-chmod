@@ -7,7 +7,7 @@
 	"author": {
 		"name": "Sindre Sorhus",
 		"email": "sindresorhus@gmail.com",
-		"url": "sindresorhus.com"
+		"url": "https://sindresorhus.com"
 	},
 	"engines": {
 		"node": ">=8"
@@ -28,12 +28,12 @@
 		"permissions"
 	],
 	"dependencies": {
-		"deep-assign": "^1.0.0",
-		"stat-mode": "^0.3.0",
+		"lodash.merge": "^4.6.2",
+		"stat-mode": "^1.0.0",
 		"through2": "^3.0.1"
 	},
 	"devDependencies": {
-		"mocha": "^6.1.4",
+		"mocha": "^6.2.0",
 		"vinyl": "^2.1.0",
 		"xo": "^0.24.0"
 	}

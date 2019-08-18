@@ -1,22 +1,20 @@
-# gulp-chmod [![Build Status](https://travis-ci.org/sindresorhus/gulp-chmod.svg?branch=master)](https://travis-ci.org/sindresorhus/gulp-chmod)
+# gulp-chmod
 
 > [Change permissions](https://en.wikipedia.org/wiki/Chmod) of [Vinyl](https://github.com/gulpjs/vinyl) files
 
-
 ## Install
 
+```sh
+npm install --save-dev gulp-chmod
 ```
-$ npm install --save-dev gulp-chmod
-```
-
 
 ## Usage
 
 ```js
-const gulp = require('gulp');
-const chmod = require('gulp-chmod');
+import gulp from 'gulp';
+import chmod from 'gulp-chmod';
 
-gulp.task('default', () =>
+export default () => (
 	gulp.src('src/app.js')
 		.pipe(chmod(0o755))
 		.pipe(gulp.dest('dist'))
@@ -26,10 +24,10 @@ gulp.task('default', () =>
 or
 
 ```js
-const gulp = require('gulp');
-const chmod = require('gulp-chmod');
+import gulp from 'gulp';
+import chmod from 'gulp-chmod';
 
-gulp.task('default', () =>
+export default () => (
 	gulp.src('src/app.js')
 		.pipe(chmod({
 			owner: {
@@ -48,16 +46,15 @@ gulp.task('default', () =>
 );
 ```
 
-
 ## API
 
-### chmod(fileMode, [directoryMode])
+### chmod(fileMode, directoryMode?)
 
 #### fileMode
 
 Type: `number | object`
 
-Can either be a [chmod](http://ss64.com/bash/chmod.html) octal number or an object with the individual permissions specified.
+Can either be a [chmod](https://ss64.com/bash/chmod.html) octal number or an object with the individual permissions specified.
 
 Values depends on the current file, but these are the possible keys:
 
@@ -99,19 +96,18 @@ Same as `fileMode`, but applies to directories.
 
 Specify `true` to use the same value as `fileMode`.
 
-
 ## Tip
 
 Combine it with [gulp-filter](https://github.com/sindresorhus/gulp-filter) to only change permissions on a subset of the files.
 
 ```js
-const gulp = require('gulp');
-const gFilter = require('gulp-filter');
-const chmod = require('gulp-chmod');
+import gulp from 'gulp';
+import chmod from 'gulp-chmod';
+import gulpFilter from 'gulp-filter';
 
-const filter = gFilter('src/cli.js', {restore: true});
+const filter = gulpFilter('src/cli.js', {restore: true});
 
-gulp.task('default', () =>
+export default = () => (
 	gulp.src('src/*.js')
 		// Filter a subset of the files
 		.pipe(filter)
@@ -122,7 +118,6 @@ gulp.task('default', () =>
 		.pipe(gulp.dest('dist'))
 );
 ```
-
 
 ## Related
 

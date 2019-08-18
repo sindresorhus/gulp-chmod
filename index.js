@@ -1,6 +1,6 @@
 'use strict';
 const through = require('through2');
-const deepAssign = require('deep-assign');
+const merge = require('lodash.merge');
 const Mode = require('stat-mode');
 
 const defaultMode = 0o777 & (~process.umask());
@@ -55,7 +55,7 @@ module.exports = (fileMode, directoryMode) => {
 
 		if (typeof currentMode === 'object') {
 			const statMode = new Mode(file.stat);
-			deepAssign(statMode, normalize(currentMode));
+			merge(statMode, normalize(currentMode));
 			file.stat.mode = statMode.stat.mode;
 		} else {
 			file.stat.mode = currentMode;
