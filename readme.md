@@ -16,7 +16,7 @@ $ npm install --save-dev gulp-chmod
 const gulp = require('gulp');
 const chmod = require('gulp-chmod');
 
-gulp.task('default', () =>
+exports.default = () => (
 	gulp.src('src/app.js')
 		.pipe(chmod(0o755))
 		.pipe(gulp.dest('dist'))
@@ -29,7 +29,7 @@ or
 const gulp = require('gulp');
 const chmod = require('gulp-chmod');
 
-gulp.task('default', () =>
+exports.default = () => (
 	gulp.src('src/app.js')
 		.pipe(chmod({
 			owner: {
@@ -51,7 +51,7 @@ gulp.task('default', () =>
 
 ## API
 
-### chmod(fileMode, [directoryMode])
+### chmod(fileMode, directoryMode?)
 
 #### fileMode
 
@@ -111,7 +111,7 @@ const chmod = require('gulp-chmod');
 
 const filter = gFilter('src/cli.js', {restore: true});
 
-gulp.task('default', () =>
+exports.default = () => (
 	gulp.src('src/*.js')
 		// Filter a subset of the files
 		.pipe(filter)

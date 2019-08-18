@@ -33,8 +33,11 @@
 		"through2": "^3.0.1"
 	},
 	"devDependencies": {
-		"mocha": "^6.1.4",
+		"mocha": "^6.2.0",
 		"vinyl": "^2.1.0",
 		"xo": "^0.24.0"
+	},
+	"peerDependencies": {
+		"gulp": ">=4"
 	}
 }
