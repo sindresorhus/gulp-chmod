@@ -1,14 +1,12 @@
-# gulp-chmod [![Build Status](https://travis-ci.org/sindresorhus/gulp-chmod.svg?branch=master)](https://travis-ci.org/sindresorhus/gulp-chmod)
+# gulp-chmod [![Build Status](https://travis-ci.com/sindresorhus/gulp-chmod.svg?branch=master)](https://travis-ci.com/sindresorhus/gulp-chmod)
 
 > [Change permissions](https://en.wikipedia.org/wiki/Chmod) of [Vinyl](https://github.com/gulpjs/vinyl) files
-
 
 ## Install
 
 ```
 $ npm install --save-dev gulp-chmod
 ```
-
 
 ## Usage
 
@@ -48,7 +46,6 @@ exports.default = () => (
 );
 ```
 
-
 ## API
 
 ### chmod(fileMode, directoryMode?)
@@ -57,7 +54,7 @@ exports.default = () => (
 
 Type: `number | object`
 
-Can either be a [chmod](http://ss64.com/bash/chmod.html) octal number or an object with the individual permissions specified.
+Can either be a [chmod](https://ss64.com/bash/chmod.html) octal number or an object with the individual permissions specified.
 
 Values depends on the current file, but these are the possible keys:
 
@@ -99,7 +96,6 @@ Same as `fileMode`, but applies to directories.
 
 Specify `true` to use the same value as `fileMode`.
 
-
 ## Tip
 
 Combine it with [gulp-filter](https://github.com/sindresorhus/gulp-filter) to only change permissions on a subset of the files.
@@ -122,7 +118,6 @@ exports.default = () => (
 		.pipe(gulp.dest('dist'))
 );
 ```
-
 
 ## Related
 
