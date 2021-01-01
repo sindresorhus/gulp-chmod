@@ -1,4 +1,4 @@
-# gulp-chmod [![Build Status](https://travis-ci.com/sindresorhus/gulp-chmod.svg?branch=master)](https://travis-ci.com/sindresorhus/gulp-chmod)
+# gulp-chmod
 
 > [Change permissions](https://en.wikipedia.org/wiki/Chmod) of [Vinyl](https://github.com/gulpjs/vinyl) files
 
