@@ -1,221 +1,180 @@
-/* eslint-env mocha */
-'use strict';
-const assert = require('assert');
-const Vinyl = require('vinyl');
-const chmod = require('.');
+import {Buffer} from 'node:buffer';
+import test from 'ava';
+import Vinyl from 'vinyl';
+import {pEvent} from 'p-event';
+import chmod from './index.js';
 
-it('should throw if invalid argument type', () => {
-	assert.throws(
-		() => {
-			chmod('bad argument');
-		},
-		/Expected `fileMode` to be/
-	);
+test('should throw if invalid argument type', t => {
+	t.throws(() => {
+		chmod('bad argument');
+	}, {
+		message: /Expected `fileMode` to be/,
+	});
 });
 
-it('should chmod files using a number', cb => {
+test('should chmod files using a number', async t => {
 	const stream = chmod(0o755);
 
-	stream.on('data', file => {
-		assert.strictEqual(file.stat.mode.toString(8), '755');
-		cb();
-	});
-
 	stream.end(new Vinyl({
-		stat: {
-			mode: 0o100644
-		},
-		contents: Buffer.from('')
+		stat: {mode: 0o10_0644},
+		contents: Buffer.from(''),
 	}));
+
+	const file = await pEvent(stream, 'data');
+
+	t.is(file.stat.mode.toString(8), '755');
 });
 
-it('should chmod files using an object', cb => {
+test('should chmod files using an object', async t => {
 	const stream = chmod({
-		owner: {
-			read: true,
-			write: true,
-			execute: true
-		},
-		group: {
-			execute: true
-		},
-		others: {
-			execute: true
-		}
-	});
-
-	stream.on('data', file => {
-		assert.strictEqual(file.stat.mode & 0o07777, 0o755);
-		cb();
+		owner: {read: true, write: true, execute: true},
+		group: {execute: true},
+		others: {execute: true},
 	});
 
 	stream.end(new Vinyl({
-		stat: {
-			mode: 0o100644
-		},
-		contents: Buffer.from('')
+		stat: {mode: 0o10_0644},
+		contents: Buffer.from(''),
 	}));
+
+	const file = await pEvent(stream, 'data');
+
+	t.is(file.stat.mode & 0o0_7777, 0o755); // eslint-disable-line no-bitwise
 });
 
-it('should chmod files using a simple object', cb => {
-	const stream = chmod({
-		read: false
-	});
-
-	stream.on('data', file => {
-		assert.strictEqual(file.stat.mode & 0o07777, 0o200);
-		cb();
-	});
+test('should chmod files using a simple object', async t => {
+	const stream = chmod({read: false});
 
 	stream.end(new Vinyl({
-		stat: {
-			mode: 0o100644
-		},
-		contents: Buffer.from('')
+		stat: {mode: 0o10_0644},
+		contents: Buffer.from(''),
 	}));
+
+	const file = await pEvent(stream, 'data');
+
+	t.is(file.stat.mode & 0o0_7777, 0o200); // eslint-disable-line no-bitwise
 });
 
-it('should not change folder permissions without a directoryMode value', cb => {
+test('should not change folder permissions without directoryMode value', async t => {
 	const stream = chmod(0o755);
 
-	stream.on('data', file => {
-		assert.strictEqual(file.stat.mode, 0o100644);
-		cb();
-	});
-
 	stream.end(new Vinyl({
 		stat: {
-			mode: 0o100644,
-			isDirectory: () => true
-		}
+			mode: 0o10_0644,
+			isDirectory: () => true,
+		},
 	}));
+
+	const file = await pEvent(stream, 'data');
+
+	t.is(file.stat.mode, 0o10_0644);
 });
 
-it('should use mode for directories when directoryMode set to true', cb => {
+test('should use mode for directories when directoryMode set to true', async t => {
 	const stream = chmod(0o755, true);
 
-	stream.on('data', file => {
-		assert.strictEqual(file.stat.mode, 0o755);
-		cb();
-	});
-
 	stream.end(new Vinyl({
 		stat: {
-			mode: 0o100644,
-			isDirectory: () => true
-		}
-	}));
-});
-
-it('should throw if invalid argument type', () => {
-	assert.throws(
-		() => {
-			chmod(undefined, 'bad argument');
+			mode: 0o10_0644,
+			isDirectory: () => true,
 		},
-		/Expected `directoryMode` to be/
-	);
+	}));
+
+	const file = await pEvent(stream, 'data');
+
+	t.is(file.stat.mode, 0o755);
 });
 
-it('should chmod directories using a number', cb => {
+test('should throw if invalid directoryMode argument type', t => {
+	t.throws(() => {
+		chmod(undefined, 'bad argument');
+	}, {
+		message: /Expected `directoryMode` to be/,
+	});
+});
+
+test('should chmod directories using a number', async t => {
 	const stream = chmod(undefined, 0o755);
 
-	stream.on('data', file => {
-		assert.strictEqual(file.stat.mode, 0o755);
-		cb();
-	});
-
 	stream.end(new Vinyl({
 		stat: {
-			mode: 0o100644,
-			isDirectory: () => true
-		}
+			mode: 0o10_0644,
+			isDirectory: () => true,
+		},
 	}));
+
+	const file = await pEvent(stream, 'data');
+
+	t.is(file.stat.mode, 0o755);
 });
 
-it('should chmod directories using an object', cb => {
+test('should chmod directories using an object', async t => {
 	const stream = chmod(undefined, {
-		owner: {
-			read: true,
-			write: true,
-			execute: true
-		},
-		group: {
-			execute: true
-		},
-		others: {
-			execute: true
-		}
-	});
-
-	stream.on('data', file => {
-		assert.strictEqual(file.stat.mode & 0o07777, 0o755);
-		cb();
+		owner: {read: true, write: true, execute: true},
+		group: {execute: true},
+		others: {execute: true},
 	});
 
 	stream.end(new Vinyl({
 		stat: {
-			mode: 0o100644,
-			isDirectory: () => true
-		}
+			mode: 0o10_0644,
+			isDirectory: () => true,
+		},
 	}));
+
+	const file = await pEvent(stream, 'data');
+
+	t.is(file.stat.mode & 0o0_7777, 0o755); // eslint-disable-line no-bitwise
 });
 
-it('should handle no stat object', cb => {
+test('should handle no stat object', async t => {
 	const stream = chmod(0o755);
-
-	stream.on('data', file => {
-		assert.strictEqual(file.stat.mode, 0o755);
-		cb();
-	});
-
-	stream.end(new Vinyl({
-		contents: Buffer.from('')
-	}));
+	stream.end(new Vinyl({contents: Buffer.from('')}));
+	const file = await pEvent(stream, 'data');
+	t.is(file.stat.mode, 0o755);
 });
 
-it('should use defaultMode if no mode on state object', cb => {
+test('should use defaultMode if no mode on state object', async t => {
 	const stream = chmod(0o755);
-
-	stream.on('data', file => {
-		assert.strictEqual(file.stat.mode, 0o755);
-		cb();
-	});
 
 	stream.end(new Vinyl({
 		stat: {},
-		contents: Buffer.from('')
+		contents: Buffer.from(''),
 	}));
+
+	const file = await pEvent(stream, 'data');
+
+	t.is(file.stat.mode, 0o755);
 });
 
-it('should handle different values for mode and directoryMode', cb => {
+test('should handle different values for mode and directoryMode', async t => {
+	t.plan(2);
+
 	const stream = chmod(0o755, 0o777);
 	let checkedDirectory = false;
 	let checkedFile = false;
 
+	stream.write(new Vinyl({
+		contents: Buffer.from(''),
+	}));
+
+	stream.write(new Vinyl({
+		stat: {isDirectory: () => true},
+	}));
+
 	stream.on('data', file => {
-		if (file.stat && file.stat.isDirectory && file.stat.isDirectory()) {
-			assert.strictEqual(file.stat.mode, 0o777);
+		if (file.isDirectory()) {
+			t.is(file.stat.mode, 0o777);
 			checkedDirectory = true;
 		} else {
-			assert.strictEqual(file.stat.mode, 0o755);
+			t.is(file.stat.mode, 0o755);
 			checkedFile = true;
 		}
 
-		// Checked both file and directory values
 		if (checkedDirectory && checkedFile) {
-			cb();
+			stream.end();
 		}
 	});
 
-	stream.write(new Vinyl({
-		contents: Buffer.from('')
-	}));
-
-	stream.write(new Vinyl({
-		stat: {
-			isDirectory: () => true
-		}
-	}));
-
-	stream.end();
+	await pEvent(stream, 'end');
 });

@@ -4,16 +4,19 @@
 	"description": "Change permissions of Vinyl files",
 	"license": "MIT",
 	"repository": "sindresorhus/gulp-chmod",
+	"funding": "https://github.com/sponsors/sindresorhus",
 	"author": {
 		"name": "Sindre Sorhus",
 		"email": "sindresorhus@gmail.com",
 		"url": "https://sindresorhus.com"
 	},
+	"type": "module",
+	"exports": "./index.js",
 	"engines": {
-		"node": ">=8"
+		"node": ">=18"
 	},
 	"scripts": {
-		"test": "xo && mocha"
+		"test": "xo && ava"
 	},
 	"files": [
 		"index.js"
@@ -28,13 +31,14 @@
 		"permissions"
 	],
 	"dependencies": {
+		"gulp-plugin-extras": "^0.2.0",
 		"lodash.merge": "^4.6.2",
-		"stat-mode": "^1.0.0",
-		"through2": "^3.0.1"
+		"stat-mode": "^1.0.0"
 	},
 	"devDependencies": {
-		"mocha": "^6.2.0",
-		"vinyl": "^2.1.0",
-		"xo": "^0.24.0"
+		"ava": "^5.3.1",
+		"p-event": "^6.0.0",
+		"vinyl": "^3.0.0",
+		"xo": "^0.56.0"
 	}
 }

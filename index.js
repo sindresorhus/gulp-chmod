@@ -1,17 +1,18 @@
-'use strict';
-const through = require('through2');
-const merge = require('lodash.merge');
-const Mode = require('stat-mode');
+import process from 'node:process';
+import merge from 'lodash.merge';
+import Mode from 'stat-mode';
+import {gulpPlugin} from 'gulp-plugin-extras';
 
-const defaultMode = 0o777 & (~process.umask());
+const defaultMode = 0o777 & (~process.umask()); // eslint-disable-line no-bitwise
 
 function normalize(mode) {
-	let isCalled = false;
 	const newMode = {
 		owner: {},
 		group: {},
-		others: {}
+		others: {},
 	};
+
+	let isCalled = false;
 
 	for (const key of ['read', 'write', 'execute']) {
 		if (typeof mode[key] === 'boolean') {
@@ -25,7 +26,7 @@ function normalize(mode) {
 	return isCalled ? newMode : mode;
 }
 
-module.exports = (fileMode, directoryMode) => {
+export default function gulpChmod(fileMode, directoryMode) {
 	if (!(fileMode === undefined || typeof fileMode === 'number' || typeof fileMode === 'object')) {
 		throw new TypeError('Expected `fileMode` to be undefined/number/object');
 	}
@@ -38,20 +39,15 @@ module.exports = (fileMode, directoryMode) => {
 		throw new TypeError('Expected `directoryMode` to be undefined/true/number/object');
 	}
 
-	return through.obj((file, encoding, callback) => {
-		let currentMode = fileMode;
-
-		if (file.isNull() && file.stat && file.stat.isDirectory()) {
-			currentMode = directoryMode;
-		}
+	return gulpPlugin('gulp-chmod', file => {
+		const currentMode = file.isDirectory() ? directoryMode : fileMode;
 
 		if (currentMode === undefined) {
-			callback(null, file);
-			return;
+			return file;
 		}
 
-		file.stat = file.stat || {};
-		file.stat.mode = file.stat.mode || defaultMode;
+		file.stat = file.stat ?? {};
+		file.stat.mode = file.stat.mode ?? defaultMode;
 
 		if (typeof currentMode === 'object') {
 			const statMode = new Mode(file.stat);
@@ -61,6 +57,6 @@ module.exports = (fileMode, directoryMode) => {
 			file.stat.mode = currentMode;
 		}
 
-		callback(null, file);
-	});
-};
+		return file;
+	}, {supportsDirectories: true});
+}
